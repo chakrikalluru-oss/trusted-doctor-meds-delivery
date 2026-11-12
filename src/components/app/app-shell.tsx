@@ -1,5 +1,5 @@
 import { Link, useRouter } from "@tanstack/react-router";
-import { ArrowLeft, ClipboardList, Home, Search, ShoppingBag, User } from "lucide-react";
+import { ArrowLeft, History, Home, LayoutGrid, ShoppingCart, User } from "lucide-react";
 import type { ReactNode } from "react";
 import { useStore } from "@/lib/store";
 import { cn } from "@/lib/utils";
@@ -23,17 +23,17 @@ export function AppShell({ title, showBack, children, actionBar, hideNav }: Prop
     <div className="min-h-screen">
       <div className="relative mx-auto flex min-h-screen max-w-md flex-col bg-background shadow-card">
         {title && (
-          <header className="sticky top-0 z-30 flex items-center gap-3 border-b bg-background/95 px-4 py-3 backdrop-blur">
+          <header className="sticky top-0 z-30 flex items-center gap-3 border-b bg-card px-4 py-3">
             {showBack && (
               <button
                 onClick={goBack}
                 aria-label="Go back"
-                className="flex h-12 w-12 items-center justify-center rounded-xl bg-muted text-foreground transition-colors hover:bg-accent"
+                className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border bg-card text-primary transition-colors hover:bg-accent"
               >
                 <ArrowLeft className="size-6" />
               </button>
             )}
-            <h1 className="text-xl font-semibold">{title}</h1>
+            <h1 className="truncate text-xl font-bold">{title}</h1>
           </header>
         )}
 
@@ -60,9 +60,9 @@ function BottomNav() {
   const { cartCount, hydrated } = useStore();
   const items = [
     { to: "/", label: "Home", icon: Home, exact: true },
-    { to: "/search", label: "Search", icon: Search, exact: false },
-    { to: "/cart", label: "Cart", icon: ShoppingBag, exact: false },
-    { to: "/orders", label: "Orders", icon: ClipboardList, exact: false },
+    { to: "/categories", label: "Categories", icon: LayoutGrid, exact: false },
+    { to: "/orders", label: "Orders", icon: History, exact: false },
+    { to: "/cart", label: "Cart", icon: ShoppingCart, exact: false },
     { to: "/account", label: "Me", icon: User, exact: false },
   ] as const;
 
@@ -86,7 +86,7 @@ function BottomNav() {
               </span>
             )}
           </span>
-          <span className="text-sm font-semibold">{label}</span>
+          <span className="whitespace-nowrap text-[0.8rem] font-semibold tracking-tight">{label}</span>
         </Link>
       ))}
     </nav>

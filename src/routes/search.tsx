@@ -3,8 +3,8 @@ import { Camera, Search, Stethoscope, X } from "lucide-react";
 import { useState } from "react";
 import { AppShell } from "@/components/app/app-shell";
 import { SectionTitle } from "@/components/app/bits";
-import { MedicineRow } from "@/components/app/medicine-row";
-import { hospitals, medicines } from "@/lib/data";
+import { MedicineGrid } from "@/components/app/medicine-card";
+import { getCategory, hospitals, medicines } from "@/lib/data";
 
 export const Route = createFileRoute("/search")({
   head: () => ({
@@ -20,19 +20,19 @@ export const Route = createFileRoute("/search")({
   component: SearchPage,
 });
 
-const COMMON = ["Sugar", "Blood pressure", "Fever", "Acidity", "Bone"];
+const COMMON = ["Sugar", "Blood pressure", "Fever", "Cough", "Acidity", "Pain"];
 
 function SearchPage() {
   const [q, setQ] = useState("");
   const term = q.trim().toLowerCase();
   const meds = term
-    ? medicines.filter((m) => `${m.name} ${m.use}`.toLowerCase().includes(term))
+    ? medicines.filter((m) => `${m.name} ${m.use} ${getCategory(m.category)?.label ?? ""}`.toLowerCase().includes(term))
     : [];
   const hosp = term ? hospitals.filter((h) => `${h.name} ${h.area}`.toLowerCase().includes(term)) : [];
 
   return (
     <AppShell title="Search">
-      <label className="flex h-16 items-center gap-3 rounded-2xl border-2 border-primary bg-card px-4 shadow-card">
+      <label className="flex h-16 items-center gap-3 rounded-2xl border-2 border-primary bg-card px-4">
         <Search className="size-6 text-primary" />
         <input
           autoFocus
@@ -78,11 +78,7 @@ function SearchPage() {
       {meds.length > 0 && (
         <>
           <SectionTitle>Medicines</SectionTitle>
-          <div className="flex flex-col gap-3">
-            {meds.map((m) => (
-              <MedicineRow key={m.id} medicine={m} showHospital />
-            ))}
-          </div>
+          <MedicineGrid items={meds} showHospital />
         </>
       )}
 

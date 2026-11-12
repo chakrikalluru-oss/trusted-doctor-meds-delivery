@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { BadgeCheck, Clock, Pill, ShoppingBag, Stethoscope } from "lucide-react";
+import { BadgeCheck, Clock, ShoppingBag, Stethoscope } from "lucide-react";
+import { CategoryIcon } from "@/components/app/category-icon";
 import { toast } from "sonner";
 import { AppShell } from "@/components/app/app-shell";
 import { CertifiedBadge, QtyStepper, RxBadge } from "@/components/app/bits";
@@ -75,7 +76,7 @@ function MedicinePage() {
     >
       <div className="flex flex-col items-center rounded-3xl bg-primary-soft px-5 py-8 text-center">
         <span className="flex h-20 w-20 items-center justify-center rounded-3xl bg-card text-primary shadow-card">
-          <Pill className="size-10" />
+          <CategoryIcon id={medicine.category} className="size-10" />
         </span>
         <h2 className="mt-4 text-3xl font-bold">{medicine.name}</h2>
         <p className="text-xl text-muted-foreground">{medicine.strength} · {medicine.pack}</p>

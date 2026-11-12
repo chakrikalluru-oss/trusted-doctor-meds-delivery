@@ -12,8 +12,10 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountRouteImport } from './routes/account'
 import { Route as CartRouteImport } from './routes/cart'
+import { Route as CategoriesRouteImport } from './routes/categories'
 import { Route as PrescriptionRouteImport } from './routes/prescription'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as CategoryCategoryIdRouteImport } from './routes/category.$categoryId'
 import { Route as HospitalHospitalIdRouteImport } from './routes/hospital.$hospitalId'
 import { Route as MedicineMedicineIdRouteImport } from './routes/medicine.$medicineId'
 import { Route as OrdersIndexRouteImport } from './routes/orders.index'
@@ -34,6 +36,11 @@ const CartRoute = CartRouteImport.update({
   path: '/cart',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CategoriesRoute = CategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const PrescriptionRoute = PrescriptionRouteImport.update({
   id: '/prescription',
   path: '/prescription',
@@ -42,6 +49,11 @@ const PrescriptionRoute = PrescriptionRouteImport.update({
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CategoryCategoryIdRoute = CategoryCategoryIdRouteImport.update({
+  id: '/category/$categoryId',
+  path: '/category/$categoryId',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HospitalHospitalIdRoute = HospitalHospitalIdRouteImport.update({
@@ -69,8 +81,10 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/cart': typeof CartRoute
+  '/categories': typeof CategoriesRoute
   '/prescription': typeof PrescriptionRoute
   '/search': typeof SearchRoute
+  '/category/$categoryId': typeof CategoryCategoryIdRoute
   '/hospital/$hospitalId': typeof HospitalHospitalIdRoute
   '/medicine/$medicineId': typeof MedicineMedicineIdRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
@@ -80,8 +94,10 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/cart': typeof CartRoute
+  '/categories': typeof CategoriesRoute
   '/prescription': typeof PrescriptionRoute
   '/search': typeof SearchRoute
+  '/category/$categoryId': typeof CategoryCategoryIdRoute
   '/hospital/$hospitalId': typeof HospitalHospitalIdRoute
   '/medicine/$medicineId': typeof MedicineMedicineIdRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
@@ -92,8 +108,10 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/account': typeof AccountRoute
   '/cart': typeof CartRoute
+  '/categories': typeof CategoriesRoute
   '/prescription': typeof PrescriptionRoute
   '/search': typeof SearchRoute
+  '/category/$categoryId': typeof CategoryCategoryIdRoute
   '/hospital/$hospitalId': typeof HospitalHospitalIdRoute
   '/medicine/$medicineId': typeof MedicineMedicineIdRoute
   '/orders/$orderId': typeof OrdersOrderIdRoute
@@ -105,8 +123,10 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/cart'
+    | '/categories'
     | '/prescription'
     | '/search'
+    | '/category/$categoryId'
     | '/hospital/$hospitalId'
     | '/medicine/$medicineId'
     | '/orders/$orderId'
@@ -116,8 +136,10 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/cart'
+    | '/categories'
     | '/prescription'
     | '/search'
+    | '/category/$categoryId'
     | '/hospital/$hospitalId'
     | '/medicine/$medicineId'
     | '/orders/$orderId'
@@ -127,8 +149,10 @@ export interface FileRouteTypes {
     | '/'
     | '/account'
     | '/cart'
+    | '/categories'
     | '/prescription'
     | '/search'
+    | '/category/$categoryId'
     | '/hospital/$hospitalId'
     | '/medicine/$medicineId'
     | '/orders/$orderId'
@@ -139,8 +163,10 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AccountRoute: typeof AccountRoute
   CartRoute: typeof CartRoute
+  CategoriesRoute: typeof CategoriesRoute
   PrescriptionRoute: typeof PrescriptionRoute
   SearchRoute: typeof SearchRoute
+  CategoryCategoryIdRoute: typeof CategoryCategoryIdRoute
   HospitalHospitalIdRoute: typeof HospitalHospitalIdRoute
   MedicineMedicineIdRoute: typeof MedicineMedicineIdRoute
   OrdersOrderIdRoute: typeof OrdersOrderIdRoute
@@ -170,6 +196,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CartRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/categories': {
+      id: '/categories'
+      path: '/categories'
+      fullPath: '/categories'
+      preLoaderRoute: typeof CategoriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/prescription': {
       id: '/prescription'
       path: '/prescription'
@@ -182,6 +215,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category/$categoryId': {
+      id: '/category/$categoryId'
+      path: '/category/$categoryId'
+      fullPath: '/category/$categoryId'
+      preLoaderRoute: typeof CategoryCategoryIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/hospital/$hospitalId': {
@@ -219,8 +259,10 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AccountRoute: AccountRoute,
   CartRoute: CartRoute,
+  CategoriesRoute: CategoriesRoute,
   PrescriptionRoute: PrescriptionRoute,
   SearchRoute: SearchRoute,
+  CategoryCategoryIdRoute: CategoryCategoryIdRoute,
   HospitalHospitalIdRoute: HospitalHospitalIdRoute,
   MedicineMedicineIdRoute: MedicineMedicineIdRoute,
   OrdersOrderIdRoute: OrdersOrderIdRoute,

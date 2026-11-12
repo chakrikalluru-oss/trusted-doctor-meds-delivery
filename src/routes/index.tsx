@@ -1,11 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Camera, ChevronRight, MapPin, RotateCcw, Search, Stethoscope } from "lucide-react";
+import { BadgeCheck, Camera, ChevronDown, MapPin, RotateCcw, Search, ShoppingCart } from "lucide-react";
+import { useState } from "react";
 import { toast } from "sonner";
-import heroImg from "@/assets/home-delivery.jpg";
 import { AppShell } from "@/components/app/app-shell";
-import { CertifiedBadge, SectionTitle } from "@/components/app/bits";
-import { MedicineRow } from "@/components/app/medicine-row";
-import { doctorsAt, getMedicine, hospitals } from "@/lib/data";
+import { SectionTitle } from "@/components/app/bits";
+import { CategoryGrid } from "@/components/app/category-grid";
+import { HospitalLink } from "@/components/app/hospital-link";
+import { MedicineGrid } from "@/components/app/medicine-card";
+import { categories, doctorsAt, getCategory, getMedicine, hospitals, medicinesIn, type CategoryId } from "@/lib/data";
 import { useStore } from "@/lib/store";
 
 export const Route = createFileRoute("/")({
@@ -23,36 +25,54 @@ export const Route = createFileRoute("/")({
 });
 
 function Home() {
-  const { profile, orders, reorder, hydrated } = useStore();
+  const { profile, orders, reorder, hydrated, cartCount } = useStore();
+  const [selected, setSelected] = useState<CategoryId | null>(null);
   const lastOrder = hydrated ? orders[0] : undefined;
   const regulars = lastOrder?.lines.map((l) => getMedicine(l.medicineId)).filter((m) => !!m) ?? [];
+  const area = profile.address.split(",").pop()?.trim();
 
   return (
     <AppShell>
-      <Link to="/account" className="mt-1 inline-flex max-w-full items-center gap-1.5 rounded-xl bg-muted px-3 py-2 text-base font-semibold">
-        <MapPin className="size-5 shrink-0 text-primary" />
-        <span className="truncate">{profile.address}</span>
-      </Link>
-      <div className="mt-4">
-        <p className="text-lg text-muted-foreground">Hello,</p>
-        <h1 className="text-3xl font-bold">{profile.name.split(" ")[0]} ji</h1>
+      {/* Teal top band: delivery address, cart, search */}
+      <div className="-mx-5 -mt-4 bg-primary px-5 pb-6 pt-5 text-primary-foreground">
+        <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3">
+          <Link to="/account" className="min-w-0">
+            <span className="block text-base opacity-85">Delivering in 35 mins to</span>
+            <span className="flex items-center gap-1.5 text-xl font-bold">
+              <MapPin className="size-5 shrink-0" />
+              <span className="truncate">Home · {area}</span>
+              <ChevronDown className="size-5 shrink-0" />
+            </span>
+          </Link>
+          <Link
+            to="/cart"
+            aria-label={`Cart, ${cartCount} items`}
+            className="relative flex h-14 w-14 items-center justify-center rounded-2xl bg-primary-foreground/15"
+          >
+            <ShoppingCart className="size-7" />
+            {hydrated && cartCount > 0 && (
+              <span className="absolute -right-1.5 -top-1.5 flex h-6 min-w-6 items-center justify-center rounded-full bg-rx px-1 text-sm font-bold">
+                {cartCount}
+              </span>
+            )}
+          </Link>
+        </div>
+        <Link
+          to="/search"
+          className="mt-4 flex h-16 items-center gap-3 rounded-2xl bg-card px-5 text-lg text-muted-foreground"
+        >
+          <Search className="size-6 shrink-0 text-foreground" />
+          <span className="truncate">Search medicines or symptoms</span>
+        </Link>
       </div>
 
-      <Link
-        to="/search"
-        className="mt-5 flex h-16 items-center gap-3 rounded-2xl border-2 border-input bg-card px-5 text-lg text-muted-foreground shadow-card"
-      >
-        <Search className="size-6 text-primary" />
-        Search medicines
-      </Link>
-
-      <div className="mt-4 grid grid-cols-2 gap-3">
-        <Link
-          to="/prescription"
-          className="flex flex-col gap-3 rounded-2xl bg-primary p-4 text-primary-foreground shadow-lift"
-        >
-          <Camera className="size-8" />
-          <span className="text-lg font-bold leading-tight">Send my prescription</span>
+      {/* Two big shortcuts */}
+      <div className="mt-5 grid grid-cols-2 gap-3">
+        <Link to="/prescription" className="flex items-center gap-3 rounded-2xl border bg-card p-3.5 shadow-card">
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+            <Camera className="size-6" />
+          </span>
+          <span className="text-base font-bold leading-tight">Send prescription</span>
         </Link>
         <button
           onClick={() => {
@@ -60,56 +80,62 @@ function Home() {
             reorder(lastOrder.id);
             toast.success("Your last order is in the cart");
           }}
-          className="flex flex-col gap-3 rounded-2xl bg-seal-soft p-4 text-left text-seal-foreground"
+          className="flex items-center gap-3 rounded-2xl border bg-card p-3.5 text-left shadow-card"
         >
-          <RotateCcw className="size-8 text-seal" />
-          <span className="text-lg font-bold leading-tight">Repeat last order</span>
+          <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
+            <RotateCcw className="size-6" />
+          </span>
+          <span className="text-base font-bold leading-tight">Repeat last order</span>
         </button>
       </div>
 
-      <div className="mt-6 overflow-hidden rounded-3xl border bg-card shadow-card">
-        <img src={heroImg} alt="A delivery partner handing medicines to an elderly woman at her door" width={1200} height={800} className="aspect-[3/2] w-full object-cover" />
-        <div className="p-4">
-          <CertifiedBadge />
-          <p className="mt-2 text-lg font-semibold leading-snug">
-            The exact medicines your hospital gives you — sealed by their pharmacy, brought to your door.
-          </p>
-        </div>
-      </div>
+      <SectionTitle
+        action={
+          selected ? (
+            <button onClick={() => setSelected(null)} className="text-lg font-semibold text-primary">
+              Clear
+            </button>
+          ) : (
+            <Link to="/categories" className="text-lg font-semibold text-primary">
+              See all
+            </Link>
+          )
+        }
+      >
+        Shop by health need
+      </SectionTitle>
+      <CategoryGrid items={categories.slice(0, 8)} selected={selected} onSelect={(id) => setSelected(id === selected ? null : id)} />
+
+      {selected ? (
+        <>
+          <div className="mb-4 mt-8">
+            <h2 className="text-2xl font-bold">{getCategory(selected)?.label}</h2>
+            <p className="text-base text-muted-foreground">From your hospitals' pharmacies</p>
+          </div>
+          <MedicineGrid items={medicinesIn(selected)} showHospital />
+        </>
+      ) : (
+        regulars.length > 0 && (
+          <>
+            <div className="mb-4 mt-8">
+              <h2 className="text-2xl font-bold">Your regular medicines</h2>
+              <p className="text-base text-muted-foreground">From your last order</p>
+            </div>
+            <MedicineGrid items={regulars} showHospital />
+          </>
+        )
+      )}
 
       <SectionTitle>Your hospitals</SectionTitle>
+      <div className="mb-3 flex items-start gap-3 rounded-2xl bg-seal-soft p-3.5 text-seal-foreground">
+        <BadgeCheck className="mt-0.5 size-6 shrink-0 text-seal" />
+        <p className="text-base">The exact medicines your hospital gives you — sealed by their own pharmacy.</p>
+      </div>
       <div className="flex flex-col gap-3">
         {hospitals.map((h) => (
-          <Link
-            key={h.id}
-            to="/hospital/$hospitalId"
-            params={{ hospitalId: h.id }}
-            className="flex items-center gap-4 rounded-2xl border bg-card p-4 shadow-card transition-colors hover:border-primary/40"
-          >
-            <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-accent text-accent-foreground">
-              <Stethoscope className="size-7" />
-            </span>
-            <span className="min-w-0 flex-1">
-              <span className="block text-lg font-bold leading-snug">{h.name}</span>
-              <span className="block text-base text-muted-foreground">
-                {doctorsAt(h.id).length} doctors · {h.distanceKm} km · about {h.etaMins} min
-              </span>
-            </span>
-            <ChevronRight className="size-6 text-muted-foreground" />
-          </Link>
+          <HospitalLink key={h.id} id={h.id} name={h.name} meta={`${doctorsAt(h.id).length} doctors · ${h.distanceKm} km · ~${h.etaMins} min`} />
         ))}
       </div>
-
-      {regulars.length > 0 && (
-        <>
-          <SectionTitle>Your regular medicines</SectionTitle>
-          <div className="flex flex-col gap-3">
-            {regulars.map((m) => (
-              <MedicineRow key={m.id} medicine={m} showHospital />
-            ))}
-          </div>
-        </>
-      )}
     </AppShell>
   );
 }

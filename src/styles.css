@@ -9,13 +9,14 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * MediTrust design system — calm, high-contrast, large-type, elder-friendly.
- * Warm cream surfaces, deep teal-green primary, gold "certified" seal, terracotta for prescription items.
+ * MediTrust design system — clean, high-contrast, large-type, elder-friendly.
+ * Cool off-white surfaces, white cards, deep teal primary with mint tints,
+ * gold "certified" seal and terracotta for prescription items as small accents.
  */
 
 @theme inline {
-  --font-sans: "Atkinson Hyperlegible", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Lexend", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Figtree", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Figtree", ui-sans-serif, system-ui, sans-serif;
 
   --radius-sm: calc(var(--radius) - 6px);
   --radius-md: calc(var(--radius) - 4px);
@@ -74,51 +75,51 @@
 
 :root {
   --radius: 1rem;
-  --background: oklch(0.982 0.012 88);
-  --foreground: oklch(0.24 0.03 172);
-  --card: oklch(0.995 0.004 88);
-  --card-foreground: oklch(0.24 0.03 172);
-  --popover: oklch(0.995 0.004 88);
-  --popover-foreground: oklch(0.24 0.03 172);
-  --primary: oklch(0.44 0.085 168);
-  --primary-foreground: oklch(0.99 0.006 88);
-  --primary-soft: oklch(0.93 0.035 165);
-  --secondary: oklch(0.945 0.02 85);
-  --secondary-foreground: oklch(0.24 0.03 172);
-  --muted: oklch(0.955 0.014 88);
-  --muted-foreground: oklch(0.43 0.025 172);
-  --accent: oklch(0.93 0.035 165);
-  --accent-foreground: oklch(0.32 0.07 168);
+  --background: oklch(0.976 0.003 185);
+  --foreground: oklch(0.21 0.012 185);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.21 0.012 185);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.21 0.012 185);
+  --primary: oklch(0.47 0.085 182);
+  --primary-foreground: oklch(0.99 0.003 185);
+  --primary-soft: oklch(0.95 0.025 182);
+  --secondary: oklch(0.945 0.005 185);
+  --secondary-foreground: oklch(0.21 0.012 185);
+  --muted: oklch(0.955 0.005 185);
+  --muted-foreground: oklch(0.46 0.013 185);
+  --accent: oklch(0.95 0.025 182);
+  --accent-foreground: oklch(0.38 0.075 182);
   --destructive: oklch(0.55 0.19 27);
-  --destructive-foreground: oklch(0.99 0.006 88);
+  --destructive-foreground: oklch(0.99 0.003 185);
   --seal: oklch(0.7 0.13 78);
-  --seal-soft: oklch(0.95 0.05 88);
-  --seal-foreground: oklch(0.36 0.07 65);
+  --seal-soft: oklch(0.96 0.045 88);
+  --seal-foreground: oklch(0.38 0.07 65);
   --rx: oklch(0.52 0.14 38);
-  --rx-soft: oklch(0.95 0.03 45);
-  --success: oklch(0.52 0.12 150);
-  --success-soft: oklch(0.94 0.045 150);
-  --border: oklch(0.89 0.018 88);
-  --input: oklch(0.86 0.02 88);
-  --ring: oklch(0.44 0.085 168);
+  --rx-soft: oklch(0.955 0.03 45);
+  --success: oklch(0.52 0.12 155);
+  --success-soft: oklch(0.95 0.04 155);
+  --border: oklch(0.915 0.006 185);
+  --input: oklch(0.89 0.008 185);
+  --ring: oklch(0.47 0.085 182);
 
-  --shadow-card: 0 1px 2px oklch(0.3 0.03 172 / 6%), 0 6px 20px -8px oklch(0.3 0.03 172 / 14%);
-  --shadow-lift: 0 14px 40px -14px oklch(0.44 0.085 168 / 45%);
-  --shadow-bar: 0 -8px 30px -12px oklch(0.3 0.03 172 / 18%);
+  --shadow-card: 0 1px 2px oklch(0.3 0.02 185 / 4%);
+  --shadow-lift: 0 10px 28px -12px oklch(0.47 0.085 182 / 45%);
+  --shadow-bar: 0 -6px 24px -14px oklch(0.3 0.02 185 / 20%);
 
-  --chart-1: oklch(0.44 0.085 168);
+  --chart-1: oklch(0.47 0.085 182);
   --chart-2: oklch(0.7 0.13 78);
   --chart-3: oklch(0.52 0.14 38);
-  --chart-4: oklch(0.52 0.12 150);
-  --chart-5: oklch(0.6 0.05 200);
-  --sidebar: oklch(0.982 0.012 88);
-  --sidebar-foreground: oklch(0.24 0.03 172);
-  --sidebar-primary: oklch(0.44 0.085 168);
-  --sidebar-primary-foreground: oklch(0.99 0.006 88);
-  --sidebar-accent: oklch(0.93 0.035 165);
-  --sidebar-accent-foreground: oklch(0.32 0.07 168);
-  --sidebar-border: oklch(0.89 0.018 88);
-  --sidebar-ring: oklch(0.44 0.085 168);
+  --chart-4: oklch(0.52 0.12 155);
+  --chart-5: oklch(0.6 0.05 220);
+  --sidebar: oklch(0.976 0.003 185);
+  --sidebar-foreground: oklch(0.21 0.012 185);
+  --sidebar-primary: oklch(0.47 0.085 182);
+  --sidebar-primary-foreground: oklch(0.99 0.003 185);
+  --sidebar-accent: oklch(0.95 0.025 182);
+  --sidebar-accent-foreground: oklch(0.38 0.075 182);
+  --sidebar-border: oklch(0.915 0.006 185);
+  --sidebar-ring: oklch(0.47 0.085 182);
 }
 
 .dark {
@@ -173,7 +174,8 @@
   h2,
   h3 {
     font-family: var(--font-display);
-    letter-spacing: -0.01em;
+    font-weight: 700;
+    letter-spacing: -0.015em;
     line-height: 1.2;
   }
 

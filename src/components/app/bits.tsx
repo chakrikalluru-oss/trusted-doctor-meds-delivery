@@ -32,8 +32,8 @@ export function RxBadge({ className }: { className?: string }) {
 
 export function SectionTitle({ children, action }: { children: ReactNode; action?: ReactNode }) {
   return (
-    <div className="mb-3 mt-8 flex items-end justify-between gap-3">
-      <h2 className="text-xl font-semibold">{children}</h2>
+    <div className="mb-4 mt-8 flex items-end justify-between gap-3">
+      <h2 className="text-2xl font-bold">{children}</h2>
       {action}
     </div>
   );
@@ -44,15 +44,21 @@ export function QtyStepper({
   onChange,
   size = "md",
   label,
+  block,
 }: {
   qty: number;
   onChange: (n: number) => void;
-  size?: "md" | "lg";
+  size?: "sm" | "md" | "lg";
   label: string;
+  block?: boolean;
 }) {
-  const btn = size === "lg" ? "h-14 w-14" : "h-12 w-12";
+  const btn = size === "lg" ? "h-14 w-14" : size === "sm" ? "h-10 w-10" : "h-12 w-12";
   return (
-    <div className="inline-flex items-center gap-1 rounded-2xl bg-primary-soft p-1" role="group" aria-label={`Quantity of ${label}`}>
+    <div
+      className={cn("items-center gap-1 rounded-xl bg-primary-soft p-1", block ? "flex w-full justify-between" : "inline-flex")}
+      role="group"
+      aria-label={`Quantity of ${label}`}
+    >
       <button
         onClick={() => onChange(qty - 1)}
         aria-label={`Remove one ${label}`}
@@ -60,7 +66,7 @@ export function QtyStepper({
       >
         <Minus className="size-5" strokeWidth={2.6} />
       </button>
-      <span className="min-w-10 text-center text-lg font-bold text-accent-foreground" aria-live="polite">
+      <span className="min-w-8 text-center text-lg font-bold text-accent-foreground" aria-live="polite">
         {qty}
       </span>
       <button

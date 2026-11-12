@@ -3,7 +3,7 @@ import { Clock, MapPin, Phone, ShieldCheck } from "lucide-react";
 import { useState } from "react";
 import { AppShell } from "@/components/app/app-shell";
 import { CertifiedBadge, SectionTitle } from "@/components/app/bits";
-import { MedicineRow } from "@/components/app/medicine-row";
+import { MedicineGrid } from "@/components/app/medicine-card";
 import { doctorsAt, getHospital, medicinesAt } from "@/lib/data";
 import { cn } from "@/lib/utils";
 
@@ -95,11 +95,7 @@ function HospitalPage() {
       </div>
 
       <SectionTitle action={<CertifiedBadge label="Certified" />}>Medicines</SectionTitle>
-      <div className="flex flex-col gap-3">
-        {meds.map((m) => (
-          <MedicineRow key={m.id} medicine={m} />
-        ))}
-      </div>
+      <MedicineGrid items={meds} />
     </AppShell>
   );
 }
