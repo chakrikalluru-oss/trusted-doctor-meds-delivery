@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- App is a mobile-first patient prototype rendered inside a max-w-md shell (`src/components/app/app-shell.tsx`); every screen uses `AppShell` so header, bottom nav and sticky action bar stay consistent.
+- Cart, prescription, orders and text-size live in `src/lib/store.tsx` (React context + localStorage) until a backend exists; read them only after `hydrated` is true to avoid SSR mismatches.
+- Catalogue (hospitals, doctors, medicines) is static demo data in `src/lib/data.ts`; billing/prescription rules live in `src/lib/orders.ts`.
+- Root font-size is the accessibility scale knob: size UI in rem so the Text size setting scales everything.
