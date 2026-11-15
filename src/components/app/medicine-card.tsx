@@ -8,7 +8,7 @@ import { cn } from "@/lib/utils";
 import { QtyStepper } from "./bits";
 import { CategoryIcon } from "./category-icon";
 
-export function MedicineCard({ medicine, showHospital }: { medicine: Medicine; showHospital?: boolean }) {
+export function MedicineCard({ medicine, showHospital }: { medicine: Medicine; showHospital?: boolean | undefined }) {
   const { qtyOf, setQty, hydrated } = useStore();
   const qty = hydrated ? qtyOf(medicine.id) : 0;
   const category = getCategory(medicine.category);
@@ -17,19 +17,19 @@ export function MedicineCard({ medicine, showHospital }: { medicine: Medicine; s
   return (
     <div className="flex min-w-0 flex-col rounded-2xl border bg-card p-3 shadow-card">
       <Link to="/medicine/$medicineId" params={{ medicineId: medicine.id }} className="block min-w-0">
-        <span className="relative flex aspect-[4/3] items-center justify-center rounded-xl bg-primary-soft text-primary">
+        <span className="flex aspect-[4/3] items-center justify-center rounded-xl bg-primary-soft text-primary">
           <CategoryIcon id={medicine.category} className="size-10" />
-          {medicine.rx && (
-            <span className="absolute left-2 top-2 inline-flex items-center gap-1 rounded-full bg-card px-2 py-0.5 text-xs font-bold text-rx">
-              <FileText className="size-3" strokeWidth={2.6} /> Prescription
-            </span>
-          )}
         </span>
         <span className="mt-3 block truncate text-sm font-semibold text-primary">{category?.label}</span>
         <span className="block text-lg font-bold leading-snug">
-          {medicine.name} {medicine.strength}
+          {medicine.name} <span className="whitespace-nowrap">{medicine.strength}</span>
         </span>
         <span className="block text-sm text-muted-foreground">{medicine.pack}</span>
+        {medicine.rx && (
+          <span className="mt-1.5 inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-rx-soft px-2 py-0.5 text-xs font-bold text-rx">
+            <FileText className="size-3" strokeWidth={2.6} /> Prescription
+          </span>
+        )}
         {showHospital && hospital && (
           <span className="mt-0.5 block truncate text-sm text-muted-foreground">{hospital.name}</span>
         )}

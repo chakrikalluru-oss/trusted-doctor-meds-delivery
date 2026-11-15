@@ -68,11 +68,11 @@ function Home() {
 
       {/* Two big shortcuts */}
       <div className="mt-5 grid grid-cols-2 gap-3">
-        <Link to="/prescription" className="flex items-center gap-3 rounded-2xl border bg-card p-3.5 shadow-card">
+        <Link to="/prescription" className="flex flex-col items-start gap-3 rounded-2xl border bg-card p-4 shadow-card">
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
             <Camera className="size-6" />
           </span>
-          <span className="text-base font-bold leading-tight">Send prescription</span>
+          <span className="text-lg font-bold leading-tight">Send prescription</span>
         </Link>
         <button
           onClick={() => {
@@ -80,12 +80,12 @@ function Home() {
             reorder(lastOrder.id);
             toast.success("Your last order is in the cart");
           }}
-          className="flex items-center gap-3 rounded-2xl border bg-card p-3.5 text-left shadow-card"
+          className="flex flex-col items-start gap-3 rounded-2xl border bg-card p-4 text-left shadow-card"
         >
           <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-primary-soft text-primary">
             <RotateCcw className="size-6" />
           </span>
-          <span className="text-base font-bold leading-tight">Repeat last order</span>
+          <span className="text-lg font-bold leading-tight">Repeat last order</span>
         </button>
       </div>
 
